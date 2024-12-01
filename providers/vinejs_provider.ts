@@ -7,12 +7,14 @@
  * file that was distributed with this source code.
  */
 
-import vine, { BaseLiteralType, Vine } from '@vinejs/vine'
+import vine, { symbols, BaseLiteralType, Vine } from '@vinejs/vine'
 import type { Validation, FieldContext, FieldOptions } from '@vinejs/vine/types'
 import type { MultipartFile, FileValidationOptions } from '@adonisjs/bodyparser/types'
 
 import type { ApplicationService } from '../src/types.js'
 import { Request, RequestValidator } from '../modules/http/main.js'
+
+const MULTIPART_FILE: typeof symbols.SUBTYPE = symbols.SUBTYPE ?? Symbol.for('subtype')
 
 /**
  * Validation options accepted by the "file" rule
@@ -95,7 +97,9 @@ const isMultipartFile = vine.createRule<FileRuleValidationOptions>((file, option
  * request.
  */
 class VineMultipartFile extends BaseLiteralType<MultipartFile, MultipartFile, MultipartFile> {
-  #validationOptions?: FileRuleValidationOptions
+  #validationOptions?: FileRuleValidationOptions;
+
+  [MULTIPART_FILE] = 'multipartFile'
 
   constructor(
     validationOptions?: FileRuleValidationOptions,
