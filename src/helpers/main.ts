@@ -22,4 +22,5 @@ export {
   fsImportAll,
   MessageBuilder,
 } from '@poppinss/utils'
+export { VerificationToken } from './verification_token.js'
 export { parseBindingReference } from './parse_binding_reference.js'
