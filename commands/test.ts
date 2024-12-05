@@ -146,6 +146,8 @@ export default class Test extends BaseCommand {
    * Runs tests
    */
   async run() {
+    process.env.NODE_ENV = 'test'
+
     const assembler = await importAssembler(this.app)
     if (!assembler) {
       this.#logMissingDevelopmentDependency('@adonisjs/assembler')
@@ -175,6 +177,9 @@ export default class Test extends BaseCommand {
           files: suite.files,
         }
       }),
+      env: {
+        NODE_ENV: 'test',
+      },
       metaFiles: this.app.rcFile.metaFiles,
     })
 
