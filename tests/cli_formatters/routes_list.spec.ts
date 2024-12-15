@@ -485,27 +485,27 @@ test.group('Formatters | List routes | toJSON', () => {
         stream: 'stdout',
       },
       {
-        message: `dim(GET)|/home dim((home)) | #controllers/home_controller.cyan(handle)|dim()`,
+        message: `dim(GET)|/home dim((home)) | cyan(#controllers/home_controller).cyan(handle)|dim()`,
         stream: 'stdout',
       },
       {
-        message: `dim(GET)|/about dim((about)) | AboutController.cyan(handle)|dim(closure)`,
+        message: `dim(GET)|/about dim((about)) | cyan(AboutController).cyan(handle)|dim(closure)`,
         stream: 'stdout',
       },
       {
-        message: `dim(POST)|/contact dim((contact.store)) | #controllers/contacts_controller.cyan(store)|dim()`,
+        message: `dim(POST)|/contact dim((contact.store)) | cyan(#controllers/contacts_controller).cyan(store)|dim()`,
         stream: 'stdout',
       },
       {
-        message: `dim(GET)|/contact dim((contact.create)) | #controllers/contacts_controller.cyan(create)|dim()`,
+        message: `dim(GET)|/contact dim((contact.create)) | cyan(#controllers/contacts_controller).cyan(create)|dim()`,
         stream: 'stdout',
       },
       {
-        message: `dim(GET)|/users | UsersController.cyan(handle)|dim(auth, canViewUsers, closure)`,
+        message: `dim(GET)|/users | cyan(UsersController).cyan(handle)|dim(auth, canViewUsers, closure)`,
         stream: 'stdout',
       },
       {
-        message: `dim(GET)|/payments | #controllers/payments_controller.cyan(index)|dim(auth, acl, signed, throttle)`,
+        message: `dim(GET)|/payments | cyan(#controllers/payments_controller).cyan(index)|dim(auth, acl, signed, throttle)`,
         stream: 'stdout',
       },
     ])
