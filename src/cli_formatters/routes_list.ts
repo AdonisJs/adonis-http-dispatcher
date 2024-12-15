@@ -247,7 +247,9 @@ export class RoutesListFormatter {
    * Formats controller name for the ansi list and table
    */
   #formatControllerName(route: SerializedRoute) {
-    return route.handler.type === 'controller' ? ` ${route.handler.moduleNameOrPath}.` : ''
+    return route.handler.type === 'controller'
+      ? ` ${this.#colors.cyan(route.handler.moduleNameOrPath)}.`
+      : ''
   }
 
   /**
@@ -260,7 +262,7 @@ export class RoutesListFormatter {
 
     const functionName = ` ${this.#colors.cyan(route.handler.name)}`
     if (route.handler.args) {
-      return ` ${functionName}(${route.handler.args})`
+      return ` ${functionName}${this.#colors.dim(`(${route.handler.args})`)}`
     }
 
     return functionName
