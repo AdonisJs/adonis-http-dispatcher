@@ -94,9 +94,11 @@ export default class EdgeServiceProvider {
      * explicit handler
      */
     BriskRoute.macro('render', function (this: BriskRoute, template, data) {
-      return this.setHandler(({ view }) => {
+      function rendersTemplate({ view }: HttpContext) {
         return view.render(template, data)
-      })
+      }
+      Object.defineProperty(rendersTemplate, 'listArgs', { value: template, writable: false })
+      return this.setHandler(rendersTemplate)
     })
 
     edge.use(pluginEdgeDumper(dumper))

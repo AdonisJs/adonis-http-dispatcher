@@ -126,6 +126,7 @@ test.group('Formatters | List routes | toJSON', () => {
             handler: {
               type: 'closure',
               name: 'closure',
+              args: undefined,
             },
             middleware: [],
           },
@@ -136,6 +137,7 @@ test.group('Formatters | List routes | toJSON', () => {
             handler: {
               type: 'closure',
               name: 'closure',
+              args: undefined,
             },
             middleware: [],
           },
@@ -270,6 +272,7 @@ test.group('Formatters | List routes | toJSON', () => {
             handler: {
               type: 'closure',
               name: 'closure',
+              args: undefined,
             },
             middleware: [],
           },
@@ -280,6 +283,7 @@ test.group('Formatters | List routes | toJSON', () => {
             handler: {
               type: 'closure',
               name: 'closure',
+              args: undefined,
             },
             middleware: [],
           },
@@ -616,6 +620,7 @@ test.group('Formatters | List routes | filters', () => {
             handler: {
               type: 'closure',
               name: 'closure',
+              args: undefined,
             },
             middleware: [],
           },
@@ -626,6 +631,7 @@ test.group('Formatters | List routes | filters', () => {
             handler: {
               type: 'closure',
               name: 'closure',
+              args: undefined,
             },
             middleware: [],
           },

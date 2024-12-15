@@ -23,7 +23,7 @@ type SerializedRoute = {
   methods: string[]
   middleware: string[]
   handler:
-    | { type: 'closure'; name: string }
+    | { type: 'closure'; name: string; args?: string }
     | { type: 'controller'; moduleNameOrPath: string; method: string }
 }
 
@@ -186,6 +186,7 @@ export class RoutesListFormatter {
     return {
       type: 'closure' as const,
       name: handler.name || 'closure',
+      args: 'listArgs' in handler ? String(handler.listArgs) : undefined,
     }
   }
 
@@ -253,9 +254,16 @@ export class RoutesListFormatter {
    * Formats action name for the ansi list and table
    */
   #formatAction(route: SerializedRoute) {
-    return route.handler.type === 'controller'
-      ? `${this.#colors.cyan(route.handler.method)}`
-      : ` ${this.#colors.cyan(route.handler.name)}`
+    if (route.handler.type === 'controller') {
+      return `${this.#colors.cyan(route.handler.method)}`
+    }
+
+    const functionName = ` ${this.#colors.cyan(route.handler.name)}`
+    if (route.handler.args) {
+      return ` ${functionName}(${route.handler.args})`
+    }
+
+    return functionName
   }
 
   /**
