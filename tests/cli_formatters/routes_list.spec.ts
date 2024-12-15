@@ -95,6 +95,8 @@ async function registerRoutes(app: ApplicationService) {
     .get('/articles/:id/:slug?', [() => import('#controllers/articles_controller' as any), 'show'])
     .as('articles.show')
     .domain('blog.adonisjs.com')
+
+  router.on('/blog').redirect('/articles')
 }
 
 test.group('Formatters | List routes | toJSON', () => {
@@ -206,6 +208,17 @@ test.group('Formatters | List routes | toJSON', () => {
               method: 'index',
             },
             middleware: ['auth', 'acl', 'signed', 'throttle'],
+          },
+          {
+            handler: {
+              args: '/articles',
+              name: 'redirectsToRoute',
+              type: 'closure',
+            },
+            methods: ['GET'],
+            middleware: [],
+            name: '',
+            pattern: '/blog',
           },
         ],
       },
@@ -353,6 +366,17 @@ test.group('Formatters | List routes | toJSON', () => {
             },
             middleware: ['auth', 'acl', 'signed', 'throttle'],
           },
+          {
+            handler: {
+              args: '/articles',
+              name: 'redirectsToRoute',
+              type: 'closure',
+            },
+            methods: ['GET', 'HEAD'],
+            middleware: [],
+            name: '',
+            pattern: '/blog',
+          },
         ],
       },
       {
@@ -426,6 +450,7 @@ test.group('Formatters | List routes | toJSON', () => {
           `GET    /contact (contact.create)  #controllers/contacts_controller.crea…                            `,
           `GET    /users ................................... UsersController.handle auth, canViewUsers, closure`,
           `GET    /payments ................ #controllers/payments_controller.index       auth, acl, and 2 more`,
+          `GET    /blog ..............................  redirectsToRoute(/articles)                            `,
         ],
       },
       {
@@ -506,6 +531,10 @@ test.group('Formatters | List routes | toJSON', () => {
       },
       {
         message: `dim(GET)|/payments | cyan(#controllers/payments_controller).cyan(index)|dim(auth, acl, signed, throttle)`,
+        stream: 'stdout',
+      },
+      {
+        message: `dim(GET)|/blog |  cyan(redirectsToRoute)dim((/articles))|dim()`,
         stream: 'stdout',
       },
     ])
@@ -667,6 +696,17 @@ test.group('Formatters | List routes | filters', () => {
               method: 'create',
             },
             middleware: [],
+          },
+          {
+            handler: {
+              args: '/articles',
+              name: 'redirectsToRoute',
+              type: 'closure',
+            },
+            methods: ['GET'],
+            middleware: [],
+            name: '',
+            pattern: '/blog',
           },
         ],
       },
