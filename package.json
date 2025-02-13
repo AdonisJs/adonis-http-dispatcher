@@ -94,7 +94,7 @@
     "@japa/runner": "^4.2.0",
     "@japa/snapshot": "^2.0.8",
     "@release-it/conventional-changelog": "^10.0.0",
-    "@swc/core": "1.10.16",
+    "@swc/core": "1.10.7",
     "@types/node": "^22.13.2",
     "@types/pretty-hrtime": "^1.0.3",
     "@types/sinon": "^17.0.3",
