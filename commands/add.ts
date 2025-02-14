@@ -28,6 +28,9 @@ export default class Add extends BaseCommand {
   @args.string({ description: 'Package name' })
   declare name: string
 
+  @args.string({ description: 'Package version', required: false })
+  declare version: string
+
   @flags.boolean({ description: 'Display logs in verbose mode' })
   declare verbose?: boolean
 
@@ -80,7 +83,7 @@ export default class Add extends BaseCommand {
   /**
    * Install the package using the selected package manager
    */
-  async #installPackage(npmPackageName: string) {
+  async #installPackage(npmPackageName: string, npmPackageVersion: string) {
     const colors = this.colors
     const spinner = this.logger
       .await(`installing ${colors.green(this.name)} using ${colors.grey(this.packageManager!)}`)
@@ -88,8 +91,12 @@ export default class Add extends BaseCommand {
 
     spinner.start()
 
+    const packageToInstall = npmPackageVersion
+      ? `${npmPackageName}@${npmPackageVersion}`
+      : npmPackageName
+
     try {
-      await installPackage(npmPackageName, {
+      await installPackage(packageToInstall, {
         dev: this.dev,
         silent: this.verbose === true ? false : true,
         cwd: this.app.makePath(),
@@ -130,7 +137,9 @@ export default class Add extends BaseCommand {
     /**
      * Prompt the user to confirm the installation
      */
-    const cmd = colors.grey(`${this.packageManager} add ${this.dev ? '-D ' : ''}${this.name}`)
+    const cmd = colors.grey(
+      `${this.packageManager} add ${this.dev ? '-D ' : ''}${this.name}${this.version ? `@${this.version}` : ''}`
+    )
     this.logger.info(`Installing the package using the following command : ${cmd}`)
 
     const shouldInstall = await this.prompt.confirm('Continue ?', {
@@ -146,7 +155,7 @@ export default class Add extends BaseCommand {
     /**
      * Install package
      */
-    const pkgWasInstalled = await this.#installPackage(npmPackageName)
+    const pkgWasInstalled = await this.#installPackage(npmPackageName, this.version)
     if (!pkgWasInstalled) {
       return
     }
