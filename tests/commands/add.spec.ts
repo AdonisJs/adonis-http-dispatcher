@@ -173,6 +173,32 @@ test.group('Install', (group) => {
     assert.deepEqual(pkgJson.devDependencies, { test: 'file:node_modules/foo' })
   })
 
+  test('should install specific version of dependency', async ({ assert, fs }) => {
+    const ace = await new AceFactory().make(fs.baseUrl, {
+      importer: (filePath) => import(join(filePath, `index.js?${Math.random()}`)),
+    })
+
+    await setupProject(fs, 'npm')
+    await setupPackage(fs)
+
+    const packageVersion = await fs.contentsJson('package.json')
+    console.log({ packageVersion })
+
+    await ace.app.init()
+
+    ace.addLoader(new ListLoader([Configure]))
+    ace.ui.switchMode('raw')
+    ace.prompt.trap('install').accept()
+
+    const command = await ace.create(Add, [new URL('node_modules/foo', fs.baseUrl).href, 'latest'])
+    command.verbose = true
+
+    await command.exec()
+
+    const pkgJson = await fs.contentsJson('package.json')
+    assert.deepEqual(pkgJson.devDependencies, { test: 'file:node_modules/foo' })
+  })
+
   test('pass unknown args to configure', async ({ fs, assert }) => {
     const ace = await new AceFactory().make(fs.baseUrl, {
       importer: (filePath) => import(join(filePath, `index.js?${Math.random()}`)),
